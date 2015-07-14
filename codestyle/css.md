@@ -1,181 +1,206 @@
 # CSS Styleguide
 
-## Base principles
 
-* Modular
-* Independent blocks
-* 80-characters column
-* 4 spaces indents, no tabs
-* No cascade
-* No selectors by ID
-* No selectors by element (* there are limited cases when we can use selectors by ID)
-* No !important rules (* there are limited cases when we can use the !important rule)
-* Predominantly you should avoid using selectors by attribute, but there are limited cases when it can be useful
-* Single quotes
-* Don’t put two or more blocks/elements on one node (except global classes)
-* No spaces after the end of lines. Empty line must contain only carriage return symbol.
+## Base requirements
+
 * UTF-8 encoding
 * Unix-style line endings
-* One (1) empty line at the end of each file
-* Avoid using overflow: hidden; rule, especially to clear floats
-
-## Naming conventions
-
-* Lowercase only
-* Use hyphen (-) to separate words. Camel case and underscores are not used for regular classes
-* Don’t use prefixes for class names
-* Use BEM methodology
-* The naming convention follows this pattern:
-```
-.block {
-		…
-		}
-.block__element {
-		…
-		}
-.block_modifier-name_modifier-value {
-		…
-		}
-```
-* .block represents the higher level of an abstraction or component
-* .block__element represents a descendent of .block that helps form .block as a whole
-* .block—modifier represents a different state or version of .block or element
-* JS-Lazada-* is reserved
+* 80-characters line wide where possible
+* Four (4) spaces indents, no tabs
+* No trailing spaces. Empty line must contain only the line feed symbol.
+* Lowercase only, except custom values in quotes, url's and HEX-values
+* Single quotes
+* One (1) empty line at the end of the file
 
 
-## Naming
-
-* Strive to use place-independent names. For example, instead of a class like .site-nav, choose something like .primary-nav; rather than .footer-links, favour a class like .sub-links.
-* Avoid using class names which describe block appearance, like .blue or .border. Instead, favour a class like .highlight-color
-
-## Indents
-
-* Meaningful whitespace:
-** 
-* Indent entire related rulesets to signal their relation to one another, for example:
-```
-.foo {
-		…
-		}
-		.foo__bar {
-				…
-				}
-				.foo__baz {
-						…
-						}
-```
-
-## Comments
-
-* Begin every new major section of a CSS project with a title:
-```
-/*——————————————————*\
-    #SECTION-TITLE
-\*——————————————————*/
-
-.selector {}
-```
 
 ## Ruleset
 
 * The standard ruleset looks like:
-```
+```CSS
 [selector] {
-		[property]: [value];
-		[<—declaration—>]
-		}
+    [property]: [value];
+    [<—declaration—>]
+    }
 ```
-** Each ruleset starts from a new line
-** At first a selector follows
-** The opening brace ({) on the same line as our last selector;
-** A space before our opening brace ({);
-** Each declaration on its own new line
-** Each declaration indented by four (4) spaces
-** Properties and values on the same line
-** Each rule starts from a property name, then follows a colon, one (1) space and a property value
-** Each declaration ends with semicolon
-** Each ruleset ends with the closing brace (}) on its own new line, indented as the last declaration in the list
-* We can combine two or more selectors with a comma like this:
+for example:
+```CSS
+.block {
+    display: block;
+    background-color: green;
+    color: red;
+    }
 ```
+  * Each ruleset starts on its own new line
+  * The opening brace ({) on the same line as the last selector
+  * One (1) space between the selector and the opening brace ({)
+  * Each declaration on its own new line indented by four (4) spaces
+  * No empty lines between declarations, except grouping properties
+  * Properties and values on the same line
+  * No spaces between property and colon
+  * One (1) space between colon and value
+  * Each declaration ends with a semicolon
+  * The closing brace (}) on its own new line, indented as the last
+    declaration
+* Two or more selectors, separated by comma are allowed:
+```CSS
 .foo,
 .bar,
 .baz {
-		display: block;
-		color: red;
-		…
-		}
+    display: block;
+    color: red;
+    …
+    }
 ```
-** Each selector starts from a new line
-** Each selector in a list except the last ends with a comma
-* You can combine related properties in ruleset and split them from the others by one space line:
-```
-.foo {
-		position: absolute;
+  * Each selector on its own new line
+  * No empty lines between selectors
+  * Each selector in the list except the last ends with a comma
+  * No spaces between selector and comma
+* You can group related properties like this:
+```CSS
+.block {
+    position: absolute;
 
-		border-style: solid;
-		border-width: 1px 0 0 1px;
-		border-color: #FFF;
-		
-		background-color: #000;
-		background-position: left top;
-		}
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    border-color: #FFF;
+
+    background-color: #000;
+    background-position: left top;
+    }
 ```
-* Use one of these two ways to define a color:
+  * One (1) empty line between groups of properties
+* One (1) empty line between rulesets related to the same block
+* Indent entire related rulesets to signal their relation to one another,
+for example:
+```CSS
+.block {
+    …
+    }
+
+    .block__element {
+        …
+        }
+
+        .block__inner-element {
+            …
+            }
 ```
-.foo {
-		color: #44B1C3;
-		}
-```
-or this one, if you need to define an opacity:
-```
-.foo {
-		background-color: rgba(215, 40, 40, 0.9);
-		}
-```
-* HEX colors are always written in upper case:
-```
-.foo {
-		color: #44B1C3;
-		}
-```
-* Use shorthand HEX notation abbreviates 6-character RRGGBB CSS colors into 3-character RGB shorthand. So instead of this:
-```
-.foo {
-		color: #FF6600;
-		}
-```
-write this:
-```
-.foo {
-		color: #F60;
-		}
-```
-* Rulesets related to the same block follow one each other without space lines or other separators
+
+
+
+## Selectors
+
+* Universal selector (\*) is forbidden
+* No cascade selectors
+  * _Exceptions_
+* No selectors by ID
+* No selectors by element
+  * _Exceptions_
+* No selectors by attribute
+  * _Exceptions_
+
+
+
+## Property values
+
+* 6-character color dash notation with colors without transparency: `#44B1C3`
+* 3-character color dash notation everywhere it's possible. For example `#F60`
+instead of `#FF6600`
+* Functional notation for colors with opacity different than 1:
+`rgba( 34, 12, 64, 0.3)`
+* Colors in the dash notation are upper cased
 * Values inside url() construction without quotes:
+```CSS
+.block {
+    background-image: url(/img/sprite.svg);
+    }
 ```
-.foo {
-		background-image: url(/img/sprite.svg);
-		}
+* No prefixed properties (it does Autoprefixer)
+* No !important directive (there are limited cases when we can use the !important rule)
+
+
+
+## Naming conventions
+
+* Class name
+  * Minimum 3 symbols
+  * Always starts with a letter
+  * Allowed characters: letters (a-z), digits (0-9), an underscore (\_),
+    a hyphen (-)
+  * A hyphen (-) to separate words
+  * Meaningful class names in English
+  * No word contractions and abbreviations
+  * Strive to use place-independent names. For example, instead of a class like
+    `.site-nav`, choose something like `.primary-nav`; rather than
+    `.footer-links`, favour a class like `.sub-links`.
+  * No class names which describe block appearance, like `.blue` or `.border`.
+    Instead, favour a class like `.highlight-color`.
+* BEM
+  * Block:
+```CSS
+.block {
+    …
+    }
 ```
-* We don’t use prefixed properties (it does Autoprefixer)
+  * Element:
+```CSS
+.block__element {
+    …
+    }
+```
+  * Modifier:
+```CSS
+.block_modifier-name_modifier-value {
+    …
+    }
+```
+
+
+
+## Comments
+
+* Begin every new major section of a CSS project with a title:
+
+```CSS
+/*——————————————————————————————————————————————————————*\
+    #SECTION-TITLE
+\*——————————————————————————————————————————————————————*/
+
+.selector {
+    …
+    }
+```
+
+
 
 ## Global classes
 
-* We have limited number of global classes which can be applied to any element. The exhaustive list of these kind of classes listed below:
-** .hidden
-** .invisible
-** .non-scrollable
-** .out-of-viewport
+* We have limited number of global classes which can be applied to any element.
+The exhaustive list of these kind of classes listed below:
+  * .hidden
+  * .invisible
+  * .non-scrollable
+  * .out-of-viewport
+
+
 
 ## Media queries
+
+
 
 ## Files structure
 
 * Each block have to be stored in their own file named as the block
 
+
+
 ## Recommendations
 
 * The “>” selector better than “ “ (space) selector
+* Avoid using overflow: hidden; rule, especially to clear floats
+
+
 
 ## Tools
 
