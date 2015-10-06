@@ -15,7 +15,12 @@
   3. [Element](#bem_element)
   4. [Modifier](#bem_modifier)
 6. [Comments](#comments)
-7. [Media queries](#media-queries)
+7. [Media queries](#media_queries)
+8. [LESS](#less)
+  1. [Variables](#less_variables)
+  2. [Mixins](#less_mixins)
+  3. [Nesting](#less_nesting)
+  4. [Formatting](#less_formatting)
 
 
 <a id="base"></a>
@@ -221,8 +226,18 @@ hyphen `(-)`;
 * strive to use place-independent names. For example, instead of a class like
 `.site-nav`, choose something like `.primary-nav`; rather than
 `.footer-links`, favour a class like `.sub-links`.
-* No class names which describe block appearance, like `.blue` or `.border`.
+* no class names which describe block appearance, like `.blue` or `.border`.
 Instead, favour a class like `.highlight-color`.
+* dedicated class for selecting elements from JavaScript:
+  * js-<targetName>
+  * camelCase
+  * no style rules
+
+Example:
+
+```HTML
+<a href="/login" class="button js-LoginButton"></a>
+```
 
 
 <a id="bem_block"></a>
@@ -288,10 +303,100 @@ for example:
 
 
 
-<a id="media-queries"></a>
+<a id="media_queries"></a>
 ## Media queries
 
 _TODO: describe how we're going to write media queries_
+
+
+
+<a id="less"></a>
+## LESS
+
+LESS-files must be treated as CSS ones, but with additional rules described
+below.
+
+
+<a id="less_variables"></a>
+### Variables
+
+* use variables only in property values
+  * except url()
+* camelCase
+* declare variables only at the top of the file before all selectors
+
+
+<a id="less_mixins"></a>
+### Mixins
+
+* it is forbidden to use mixins for prefixed properties,
+  it automatically does Autoprefixer
+
+
+<a id="less_nesting"></a>
+### Nesting
+
+We are using nesting for:
+
+* constructing BEM classes:
+
+```CSS
+.menu {
+    &__item {
+        ...
+        &_state_active {
+
+        }
+    }
+}
+```
+
+* the cascade:
+
+```CSS
+table > thead > tr {
+    > th {
+        ...
+    }
+    > td {
+        ...
+    }
+}
+```
+
+* pseudo-classes:
+
+```CSS
+.button {
+    &:hover,
+    &:focus {
+        ...
+    }
+
+    &:active {
+        ...
+    }
+}
+```
+
+We don't use nesting:
+
+* if all rules except the last one are empty
+* this way:
+
+```CSS
+.child {
+    .parent & {
+        ...
+    }
+}
+```
+
+
+<a id="less_formatting"></a>
+### Formatting
+
+
 
 
 
@@ -302,7 +407,8 @@ The exhaustive list of these kind of classes listed below:
   * `.hidden`
   * `.invisible`
   * `.non-scrollable`
-  * `.out-of-viewport` -->
+  * `.out-of-viewport`
+  * `.full-width` -->
 
 <!-- ## Files structure
 
