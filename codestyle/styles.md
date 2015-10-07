@@ -1,4 +1,4 @@
-# CSS code style
+# CSS/LESS code style
 
 ## Table of content
 
@@ -30,10 +30,10 @@
 * unix-style line endings;
 * 80-characters line wide where possible;
 * four (4) spaces indents, no tabs;
-* no trailing spaces (empty line must contain only the line feed symbol);
+* no trailing spaces (empty lines must contain only the line feed symbol);
 * lowercase only, except custom values in quotes, url's and HEX-values;
 * single quotes;
-* one (1) empty line at the end of the file;
+* one (1) empty line at the end of files;
 
 
 
@@ -46,7 +46,7 @@ The standard ruleset looks like:
 [selector] {
     [property]: [value];
     [<—declaration—>]
-    }
+}
 ```
 
 for example:
@@ -56,7 +56,7 @@ for example:
     display: block;
     background-color: green;
     color: red;
-    }
+}
 ```
 
 * each ruleset starts on its own new line;
@@ -70,9 +70,11 @@ for example:
 * each declaration ends with a semicolon (`;`);
 * no spaces between the value and the semicolon (`;`);
 * the closing brace (`}`) on its own new line, indented as the last
-  declaration;
+  selector;
 
-Two or more selectors, separated by comma:
+**Grouping selectors**
+
+Two or more selectors have to be separated by comma:
 
 ```CSS
 .foo,
@@ -80,15 +82,18 @@ Two or more selectors, separated by comma:
 .baz {
     display: block;
     color: red;
-    }
+}
 ```
 
 * each selector on its own new line;
-* no empty lines between selectors;
+* no empty lines between grouped selectors;
 * each selector in the list except the last one ends with a comma (`,`);
 * no spaces between selector and comma (`,`);
 
-You can group related properties indenting them by one (1) empty line:
+**Grouping properties**
+
+You can group related properties adding one (1) empty line between groups of
+properties:
 
 ```CSS
 .block {
@@ -100,31 +105,87 @@ You can group related properties indenting them by one (1) empty line:
 
     background-color: #000;
     background-position: left top;
-    }
+}
 ```
 
-No empty rulesets. This is wrong:
+This record will be wrong because grouped properties are not related to each
+other:
+
+```CSS
+.block {
+    display: block;
+
+    font-size: 30px;
+    background: #EEE;
+}
+```
+
+**Empty rulesets**
+
+Empty rulesets are not allowed. A ruleset is considered as empty if it doesn't
+contain at least one styling rule. These record will be wrong:
 
 ```CSS
 .block {}
+
+.comment-inside {
+    /*
+        Still empty because comments are not the styling rules
+    */
+}
 ```
 
-* one (1) empty line between rulesets related to the same block;
-* indent entire related rulesets to signal their relation to one another,
-  for example:
+The only exception is if a block doesn't have any styling rules, but its
+elements have you can keep the block ruleset empty:
+
+```CSS
+.block {}
+
+    .block__element1 {
+        background: #F00;
+    }
+
+    .block__element2 {
+        background: #0F0;
+    }
+```
+
+**Indenting rulesets**
+
+* one (1) empty line between rulesets;
+* indent rulesets to signal their relation to each other in HTML;
+
+Example:
 
 ```CSS
 .block {
     …
-    }
+}
 
     .block__element {
         …
-        }
+    }
 
         .block__inner-element {
             …
-            }
+        }
+```
+
+* `::before` and `::after` pseudo-elements must be treated as inner elements and
+indented accordingly:
+
+```CSS
+.block {
+    …
+}
+
+    .block::before {
+        ...
+    }
+
+    .block::after {
+        ...
+    }
 ```
 
 
@@ -132,14 +193,105 @@ No empty rulesets. This is wrong:
 <a id="selectors"></a>
 ## Selectors
 
-* Universal selector (`\*`) is forbidden
-* No cascade selectors
+* keep selectors as short as possible, in order to keep specificity down and
+  performance up;
+
+**Universal selector (`*`) is forbidden**
+
+```CSS
+/* Wrong: */
+
+* {
+    box-sizing: border-box;
+}
+```
+
+*Reasons:*
+* with high probability it will change rules that you were not going
+  to change;
+* because browsers read selectors right-to-left, the rightmost selector is often
+  critical in defining a selector’s performance;
+
+**No selectors by ID**
+
+```CSS
+/* Wrong: */
+
+#main {
+    color: #F00;
+}
+```
+
+*Reasons:*
+* selectors by id give too much weight for the rules under it;
+* it is impossible to use such blocks on the page more than one times;
+
+**No selectors by element**
+
+```CSS
+/* Wrong: */
+
+p {
+    margin: 1em 0;
+}
+
+.block img {
+    border: 1px solid #000;
+}
+```
+*Reasons:*
+* because with high probability the rules will be applied to elements you were
+  not going apply to;
+* inability to replace one tag on another without changing styles;
+
+*Exceptions:*
+* allowed to use in the reset/normalize styles files, which set basic
+  styles for the whole project;
+* allowed to use for styling selectors related to tables;
+
+**No selectors by attribute**
+
+```CSS
+/* Wrong: */
+
+.input[type="text"] {
+    font-size: 1em;
+}
+
+.input[disabled] {
+    opacity: 0.5;
+}
+
+
+/* Right: */
+
+.input_type_text {
+    font-size: 1em;
+}
+
+.input_state_disabled {
+    opacity: 0.5;
+}
+```
+
+*Reasons:*
+* the attribute selector has the same specificity as the class selector which
+  leads to an increase in the specificity and complexity of the redefinition of
+  the rules;
+
+*Exceptions:*
+* in case we need to style embedded a third-party widgets we have no ability to
+  edit its markup we can use this approach:
+
+```CSS
+[id="third-party-widget"] {}
+```
+
+
+**No cascade selectors**
+
 * _Exceptions_
-* No selectors by ID
-* No selectors by element
-* _Exceptions_
-* No selectors by attribute
-* _Exceptions_
+
 * the (`>`) selector better than (` `) space selector
 
 
@@ -149,17 +301,18 @@ No empty rulesets. This is wrong:
 
 <a id="values_numbers"></a>
 ### Numbers
-* No leading zero
-* Maximum three (3) places after the point
+* No leading zero. `.3` instead of `0.3`;
+* Maximum three (3) places after the point. `2.345em` is ok, but `2.3456` is
+  wrong;
 
 <a id="values_colors"></a>
 ### Colors
-* 6-character color dash notation with colors without transparency: `#44B1C3`
-* 3-character color dash notation everywhere it's possible. For example `#F60`
-instead of `#FF6600`
-* Functional notation for colors with opacity different than 1:
-`rgba( 34, 12, 64, 0.3)`
-* Colors in the dash notation are upper cased
+* 6-character color dash notation with colors without transparency: `#44B1C3`;
+* 3-character color dash notation everywhere it is possible. For example `#F60`
+  instead of `#FF6600`;
+* functional notation for colors with opacity different than one (1):
+  `rgba(34, 12, 64, 0.3)`;
+* colors in the dash notation are uppercased: `#44B1C3`. Not: `#44b1c3`;
 
 <a id="values_others"></a>
 ### Other
@@ -168,11 +321,11 @@ instead of `#FF6600`
 ```CSS
 .block {
     background-image: url(/img/sprite.svg);
-    }
+}
 ```
 
 * no prefixed properties (it does Autoprefixer);
-* no base64 encoded images (it does builder);
+* no base64 encoded images (it does a builder);
 * no `!important` directive;
   * Except cases when you use it proactively. Proactive use of `!important`
     means that it's used as a guarantee that some rule always will work, but not
@@ -191,7 +344,10 @@ instead of `#FF6600`
 <a id="bem"></a>
 ## BEM
 
-We use [BEM methodology](https://en.bem.info/method/) and according class names.
+Describing the essence of BEM methodology is beyond the scope of
+this document, everything you need you can find on the official BEM site:
+[BEM methodology](https://en.bem.info/method/). Here are just described the
+formal rules of naming CSS classes.
 
 <a id="bem_naming"></a>
 ### Naming conventions
@@ -199,27 +355,27 @@ We use [BEM methodology](https://en.bem.info/method/) and according class names.
 *Class name:*
 * minimum 3 symbols length;
 * always starts with a letter;
-* allowed characters: letters `(a-z)`, digits `(0-9)`, underscore `(\_)`,
-hyphen `(-)`;
+* allowed characters: letters `(a-z)`, digits `(0-9)`, underscore `(_)`,
+  hyphen `(-)`;
 * hyphen `(-)` to separate words;
 * meaningful class names in English;
 * no word contractions:
 
 ```CSS
-// Bad choice — contractions
+/* Bad choice — contractions */
 .lnk, .itm, .idx, .arr {}
 
-// Good choice
+/* Good choice */
 .link, .item, .index, .arrow {}
 ```
 
-* no abbreviations (there are exclusions):
+* no abbreviations:
 
 ```CSS
-// Bad choice — abbreviations
+/* Bad choice — abbreviations */
 .pdp, .fb, .pm {}
 
-// Good choice
+/* Good choice */
 .product-page, .facebook, .panel-menu {}
 ```
 
@@ -228,53 +384,77 @@ hyphen `(-)`;
 `.footer-links`, favour a class like `.sub-links`.
 * no class names which describe block appearance, like `.blue` or `.border`.
 Instead, favour a class like `.highlight-color`.
-* dedicated class for selecting elements from JavaScript:
-  * js-<targetName>
-  * camelCase
-  * no style rules
-
-Example:
-
-```HTML
-<a href="/login" class="button js-LoginButton"></a>
-```
 
 
 <a id="bem_block"></a>
 ### Block
 
+Block is a common CSS class which has to meet common naming conventions,
+described above. The only exception: underscore `(_)` cannot be used in the
+block class name.
+
 ```CSS
 .block {
     /* declarations */
-    }
+}
 ```
 
 for example:
 
 ```CSS
+.button {
+    display: inline-block;
+    padding: 1em;
+    background: #587185;
+    color: #FFF;
+}
 ```
 
 
 <a id="bem_element"></a>
 ### Element
 
+The element class name has the following structure:
+
+1. the name of the block which owns the element;
+2. two (2) underscore signs `(__)` following the block name;
+3. the element name;
+
 ```CSS
 .block__element {
     /* declarations */
-    }
+}
 ```
 
 for example:
 
 ```CSS
-```
+/* this is a block */
+.button {
+    ...
+}
 
+    /* this is an element which belongs to the block */
+    .button__icon {
+        display: inline-block;
+        margin-right: 5px;
+    }
+```
 
 <a id="bem_modifier"></a>
 ### Modifier
 
+The modifier may refer to an element or block. The class name has the following
+structure:
+
+1. a block or an element class name;
+2. one (1) underscore sign `(_)`;
+3. the name of the modifier key;
+4. one (1) underscore sign `(_)`;
+5. the modifier value;
+
 ```CSS
-.block_modifier-name_modifier-value {
+.block_key_value {
     /* declarations */
     }
 ```
@@ -282,6 +462,19 @@ for example:
 for example:
 
 ```CSS
+.button {
+    ...
+}
+
+/*
+    block - button
+    state - key
+    disabled - value
+*/
+.button_state_disabled {
+    background: #000;
+    opacity: 0.5;
+}
 ```
 
 
@@ -422,3 +615,11 @@ The exhaustive list of these kind of classes listed below:
 * Settings for more popular editors (PHP Storm, Sublime Text, Atom)
 * Snippets
 * Bookmark to browser -->
+
+<!-- * a dedicated class for selecting elements from JavaScript:
+  ```HTML
+  <a href="/login" class="button js-LoginButton"></a>
+  ```
+  * starts with `js-` prefix: `js-<targetName>`;
+  * camelCase for words separation;
+  * no style rules; -->
