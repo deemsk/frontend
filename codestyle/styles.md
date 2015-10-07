@@ -40,7 +40,7 @@ add any changes after this document status will be changed from **Draft** to
 
 Scrutinize each rule at the point of view your daily work:
 - Will you be able to adhere it in your work?
-- Will it be comfort for you?
+- Will it be comfortable for you?
 - Does it work for your team?
 
 If you found a grammar mistake or would like to reformulate
@@ -315,9 +315,11 @@ p {
 
 **No cascade selectors**
 
-* _Exceptions_
+*Reasons:*
+- ...
 
-* the (`>`) selector better than (` `) space selector
+*Exceptions:*
+- ...
 
 
 
@@ -668,37 +670,3 @@ We don't use nesting:
 ### Comments
 
 *This section hasn't finished. Feel free to propose your own rules.*
-
-
-
-
-<!-- ## Global classes
-
-* We have limited number of global classes which can be applied to any element.
-The exhaustive list of these kind of classes listed below:
-  * `.hidden`
-  * `.invisible`
-  * `.non-scrollable`
-  * `.out-of-viewport`
-  * `.full-width` -->
-
-<!-- ## Files structure
-
-* Each block have to be stored in their own file named as the block
-* Avoid using overflow: hidden; rule, especially to clear floats
-
-
-
-## Tools
-
-* Settings for more popular editors (PHP Storm, Sublime Text, Atom)
-* Snippets
-* Bookmark to browser -->
-
-<!-- * a dedicated class for selecting elements from JavaScript:
-  ```HTML
-  <a href="/login" class="button js-LoginButton"></a>
-  ```
-  * starts with `js-` prefix: `js-<targetName>`;
-  * camelCase for words separation;
-  * no style rules; -->
