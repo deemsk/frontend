@@ -20,8 +20,33 @@
   1. [Variables](#less_variables)
   2. [Mixins](#less_mixins)
   3. [Nesting](#less_nesting)
-  4. [Formatting](#less_formatting)
+  4. [Imports](#less_imports)
+  5. [Comments](#less_comments)
 
+
+---
+
+- Status of this document: **Draft**
+- Author: Dmitriy Bogolyubov
+- E-mail: dmitriy.bogolyubov@lazada.com
+
+---
+
+Please, feel free to share your own ideas, join discussions and make corrections
+(especially in those parts of the document which have not been filled out yet).
+If you have any objections please do not put them off, it will be much harder to
+add any changes after this document status will be changed from **Draft** to
+**Standard**.
+
+Scrutinize each rule at the point of view your daily work:
+- Will you be able to adhere it in your work?
+- Will it be comfort for you?
+- Does it work for your team?
+
+If you found a grammar mistake or would like to reformulate
+something for better understanding let me know as well.
+
+---
 
 <a id="base"></a>
 ## Base requirements
@@ -307,12 +332,13 @@ p {
 
 <a id="values_colors"></a>
 ### Colors
-* 6-character color dash notation with colors without transparency: `#44B1C3`;
-* 3-character color dash notation everywhere it is possible. For example `#F60`
+* 6-character color hash notation for color calues without transparency:
+  `#44B1C3`;
+* 3-character color hash notation everywhere it is possible. For example `#F60`
   instead of `#FF6600`;
 * functional notation for colors with opacity different than one (1):
   `rgba(34, 12, 64, 0.3)`;
-* colors in the dash notation are uppercased: `#44B1C3`. Not: `#44b1c3`;
+* colors in the hash notation are uppercased: `#44B1C3`. Not: `#44b1c3`;
 
 <a id="values_others"></a>
 ### Other
@@ -509,14 +535,59 @@ _TODO: describe how we're going to write media queries_
 LESS-files must be treated as CSS ones, but with additional rules described
 below.
 
+The list of features we use with preprocessor is limited three key features:
+1. Variables
+2. Mixins
+3. Nesting
+Using the other features is forbidden because on the one hand it leads to
+excessive complexity and on the other hand do not offer any significant benefits
+which could help to write and mantain code easier.
 
 <a id="less_variables"></a>
 ### Variables
 
-* use variables only in property values
-  * except url()
-* camelCase
-* declare variables only at the top of the file before all selectors
+* declare variables only at the top of the file before all selectors;
+* two (2) empty lines between the last declared variable and the first ruleset;
+* each variable declaration starts on its own new line;
+* no empty lines between variable declarations;
+* no spaces at the start of the line before the variable name;
+* no spaces between variable name and colon (`:`);
+* one (1) space between colon (`:`) and value;
+* each declaration ends with a semicolon (`;`);
+* no spaces between the value and the semicolon (`;`);
+* use variables only as property values;
+* variable name:
+  * minimum three (3), maximum 20 symbols length;
+  * always starts with a letter;
+  * allowed characters: letters `(a-z)` and digits `(0-9)`;
+  * camelCase;
+
+Example of right usage:
+
+```LESS
+@link-color: #AAA;
+@link-color-hover: #555;
+
+
+.link {
+    color: @link-color;
+}
+
+.icon {
+    background: url(@{images}/white-sand.png);
+}
+```
+
+These are considered as wrong usage:
+
+```LESS
+// WRONG! Using a variable value not as a property value
+.@{my-selector} {
+    margin: 0 auto;
+}
+
+
+```
 
 
 <a id="less_mixins"></a>
@@ -528,6 +599,8 @@ below.
 
 <a id="less_nesting"></a>
 ### Nesting
+
+Avoid unnecessary nesting. Just because you can nest, doesn't mean you always should. Consider nesting only if you must scope styles to a parent and if there are multiple elements to be nested.
 
 We are using nesting for:
 
@@ -586,9 +659,15 @@ We don't use nesting:
 ```
 
 
-<a id="less_formatting"></a>
-### Formatting
+<a id="less_imports"></a>
+### Imports
 
+*This section hasn't finished. Feel free to propose your own rules.*
+
+<a id="less_comments"></a>
+### Comments
+
+*This section hasn't finished. Feel free to propose your own rules.*
 
 
 
