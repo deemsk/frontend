@@ -14,14 +14,10 @@
   2. [Block](#bem_block)
   3. [Element](#bem_element)
   4. [Modifier](#bem_modifier)
-6. [Comments](#comments)
-7. [Media queries](#media_queries)
-8. [LESS](#less)
+6. [LESS](#less)
   1. [Variables](#less_variables)
   2. [Mixins](#less_mixins)
   3. [Nesting](#less_nesting)
-  4. [Imports](#less_imports)
-  5. [Comments](#less_comments)
 
 
 ---
@@ -284,7 +280,7 @@ p {
 }
 
 .input[disabled] {
-    opacity: 0.5;
+    opacity: .5;
 }
 
 
@@ -295,7 +291,7 @@ p {
 }
 
 .input_state_disabled {
-    opacity: 0.5;
+    opacity: .5;
 }
 ```
 
@@ -339,7 +335,7 @@ p {
 * 3-character color hash notation everywhere it is possible. For example `#F60`
   instead of `#FF6600`;
 * functional notation for colors with opacity different than one (1):
-  `rgba(34, 12, 64, 0.3)`;
+  `rgba(34, 12, 64, .3)`;
 * colors in the hash notation are uppercased: `#44B1C3`. Not: `#44b1c3`;
 
 <a id="values_others"></a>
@@ -501,33 +497,9 @@ for example:
 */
 .button_state_disabled {
     background: #000;
-    opacity: 0.5;
+    opacity: .5;
 }
 ```
-
-
-
-<a id="comments"></a>
-## Comments
-
-* Begin every new major section of a CSS project with a title:
-
-```CSS
-/*——————————————————————————————————————————————————————*\
-    #SECTION-TITLE
-\*——————————————————————————————————————————————————————*/
-
-.selector {
-    …
-    }
-```
-
-
-
-<a id="media_queries"></a>
-## Media queries
-
-_TODO: describe how we're going to write media queries_
 
 
 
@@ -567,12 +539,12 @@ which could help to write and mantain code easier.
 Example of right usage:
 
 ```LESS
-@link-color: #AAA;
-@link-color-hover: #555;
+@linkColor: #AAA;
+@linkColorHover: #555;
 
 
 .link {
-    color: @link-color;
+    color: @linkColor;
 }
 
 .icon {
@@ -659,14 +631,3 @@ We don't use nesting:
     }
 }
 ```
-
-
-<a id="less_imports"></a>
-### Imports
-
-*This section hasn't finished. Feel free to propose your own rules.*
-
-<a id="less_comments"></a>
-### Comments
-
-*This section hasn't finished. Feel free to propose your own rules.*
