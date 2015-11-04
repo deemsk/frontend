@@ -18,6 +18,7 @@
   1. [Variables](#less_variables)
   2. [Mixins](#less_mixins)
   3. [Nesting](#less_nesting)
+  4. [Imports](#less_imports)
 
 
 ---
@@ -269,6 +270,7 @@ p {
 * allowed to use in the reset/normalize styles files, which set basic
   styles for the whole project;
 * allowed to use for styling selectors related to tables;
+* allowed to use for styling embedded a third-party widgets;
 
 **No selectors by attribute**
 
@@ -376,7 +378,8 @@ formal rules of naming CSS classes.
 <a id="bem_naming"></a>
 ### Naming conventions
 
-*Class name:*
+Class name:
+
 * minimum 3 symbols length;
 * always starts with a letter;
 * allowed characters: letters `(a-z)`, digits `(0-9)`, underscore `(_)`,
@@ -468,8 +471,56 @@ for example:
 <a id="bem_modifier"></a>
 ### Modifier
 
-The modifier may refer to an element or block. The class name has the following
-structure:
+The modifier may refer to an element or block and may be two types:
+
+1. Boolean
+2. Key-Value
+
+
+#### Boolean modifiers
+
+Boolean modifiers represent a state of a block/element and works like a flag
+which can be set or unset. The full name is created using the scheme:
+
+```
+block-name_mod-name
+```
+
+1. a block or an element class name;
+2. one (1) underscore sign `(_)`;
+3. the name of the modifier;
+
+Examples:
+
+```CSS
+/* Boolean block modifiers */
+
+.input_disabled {}
+.tabs_rearrangeable {}
+
+/* Boolean element modifiers */
+
+.menu__list-item_dynamic {}
+.form__message_emphasized {}
+```
+
+
+#### Key-Value modifiers
+
+Key-values modifiers are used when the modifier can take more than two values
+(set/unset). Good examples are:
+
+```
+placement: top, right, bottom, left
+align: left, right, center
+theme: light, dark, solarized, etc.
+```
+
+The full name is created using the scheme:
+
+```
+block-name_mod-name_mod-value
+```
 
 1. a block or an element class name;
 2. one (1) underscore sign `(_)`;
@@ -477,28 +528,18 @@ structure:
 4. one (1) underscore sign `(_)`;
 5. the modifier value;
 
-```CSS
-.block_key_value {
-    /* declarations */
-    }
-```
-
-for example:
+Examples:
 
 ```CSS
-.button {
-    ...
-}
+/* Key-Value block modifiers */
 
-/*
-    block - button
-    state - key
-    disabled - value
-*/
-.button_state_disabled {
-    background: #000;
-    opacity: .5;
-}
+.popup_theme_dark {}
+.button_size_m {}
+
+/* Key-Value element modifiers */
+
+.menu__item_type_radio {}
+.dropdown_placement_top {}
 ```
 
 
@@ -510,9 +551,12 @@ LESS-files must be treated as CSS ones, but with additional rules described
 below.
 
 The list of features we use with preprocessor is limited three key features:
+
 1. Variables
 2. Mixins
 3. Nesting
+4. Imports
+
 Using the other features is forbidden because on the one hand it leads to
 excessive complexity and on the other hand do not offer any significant benefits
 which could help to write and mantain code easier.
@@ -520,7 +564,8 @@ which could help to write and mantain code easier.
 <a id="less_variables"></a>
 ### Variables
 
-* declare variables only at the top of the file before all selectors;
+* declare variables only at the top of the file before all rulesets, but after
+import declarations (if there are);
 * two (2) empty lines between the last declared variable and the first ruleset;
 * each variable declaration starts on its own new line;
 * no empty lines between variable declarations;
@@ -631,3 +676,11 @@ We don't use nesting:
     }
 }
 ```
+
+
+<a id="less_imports"></a>
+### Imports
+
+* declare imports only at the top of the file before all rulesets;
+* two (2) empty lines between the last import declaration and the first ruleset;
+* each import statement starts on its own new line;
