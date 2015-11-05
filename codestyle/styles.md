@@ -91,12 +91,12 @@ for example:
 * one (1) space between colon (`:`) and value;
 * each declaration ends with a semicolon (`;`);
 * no spaces between the value and the semicolon (`;`);
-* the closing brace (`}`) on its own new line, indented as the last
-  selector;
+* the closing brace (`}`) on its own new line, indented as the selector
+  it belongs to;
 
 **Grouping selectors**
 
-Two or more selectors have to be separated by comma:
+Two or more selectors in one ruleset have to be separated by comma:
 
 ```CSS
 .foo,
@@ -158,7 +158,7 @@ contain at least one styling rule. These record will be wrong:
 ```
 
 The only exception is if a block doesn't have any styling rules, but its
-elements have you can keep the block ruleset empty:
+elements have, you can keep the block ruleset empty:
 
 ```CSS
 .block {}
@@ -180,34 +180,22 @@ elements have you can keep the block ruleset empty:
 Example:
 
 ```CSS
-.block {
-    …
-}
+.block {}
 
-    .block__element {
-        …
-    }
+    .block__element {}
 
-        .block__inner-element {
-            …
-        }
+        .block__inner-element {}
 ```
 
 * `::before` and `::after` pseudo-elements must be treated as inner elements and
 indented accordingly:
 
 ```CSS
-.block {
-    …
-}
+.block {}
 
-    .block::before {
-        ...
-    }
+    .block::before {}
 
-    .block::after {
-        ...
-    }
+    .block::after {}
 ```
 
 
@@ -215,8 +203,8 @@ indented accordingly:
 <a id="selectors"></a>
 ## Selectors
 
-* keep selectors as short as possible, in order to keep specificity down and
-  performance up;
+Keep selectors as short as possible, in order to keep specificity down and
+performance up.
 
 **Universal selector (`*`) is forbidden**
 
@@ -229,6 +217,7 @@ indented accordingly:
 ```
 
 *Reasons:*
+
 * with high probability it will change rules that you were not going
   to change;
 * because browsers read selectors right-to-left, the rightmost selector is often
@@ -245,6 +234,7 @@ indented accordingly:
 ```
 
 *Reasons:*
+
 * selectors by id give too much weight for the rules under it;
 * it is impossible to use such blocks on the page more than one times;
 
@@ -262,11 +252,13 @@ p {
 }
 ```
 *Reasons:*
+
 * because with high probability the rules will be applied to elements you were
   not going apply to;
 * inability to replace one tag on another without changing styles;
 
 *Exceptions:*
+
 * allowed to use in the reset/normalize styles files, which set basic
   styles for the whole project;
 * allowed to use for styling selectors related to tables;
@@ -298,11 +290,13 @@ p {
 ```
 
 *Reasons:*
-* the attribute selector has the same specificity as the class selector which
+
+* attribute selectors has the same specificity as class selectors which
   leads to an increase in the specificity and complexity of the redefinition of
   the rules;
 
 *Exceptions:*
+
 * in case we need to style embedded a third-party widgets we have no ability to
   edit its markup we can use this approach:
 
@@ -314,10 +308,37 @@ p {
 **No cascade selectors**
 
 *Reasons:*
-- ...
+
+- the cascade increases specificity and limits the ability to extend
+  and manipulate a codebase;
 
 *Exceptions:*
-- ...
+
+- it's allowed to use a cascade if a block has a few themes and you need to add
+specific styles to the block elements, based on a theme. For example:
+
+```CSS
+.box {
+    background: #FFF;
+}
+
+    .box__title {
+        color: #000;
+    }
+
+.box_theme_dark {
+    background: #000;
+}
+
+    .box_theme_dark > .box__title {
+        color: #FFF;
+    }
+```
+
+*How to use:*
+
+- use no more than two class selectors at once;
+- prefer to use `A > E` selector instead of `A E` (space);
 
 
 
@@ -351,9 +372,13 @@ p {
 ```
 
 * no prefixed properties (it does Autoprefixer);
+  * except non-standard vendor properties like `webkit-tap-highlight-color`
+  which is missing in the ["Can I Use"](http://caniuse.com) database. Please,
+  remember that you have to have very good reasons to use it, so if there is
+  a way to accomplish a task without such prefixed properties, do it.
 * no base64 encoded images (it does a builder);
 * no `!important` directive;
-  * Except cases when you use it proactively. Proactive use of `!important`
+  * except cases when you use it proactively. Proactive use of `!important`
     means that it's used as a guarantee that some rule always will work, but not
     as a fix of a specificity problem you’ve already encountered. For example:
 
@@ -494,12 +519,10 @@ Examples:
 
 ```CSS
 /* Boolean block modifiers */
-
 .input_disabled {}
 .tabs_rearrangeable {}
 
 /* Boolean element modifiers */
-
 .menu__list-item_dynamic {}
 .form__message_emphasized {}
 ```
@@ -510,10 +533,17 @@ Examples:
 Key-values modifiers are used when the modifier can take more than two values
 (set/unset). Good examples are:
 
-```
-placement: top, right, bottom, left
-align: left, right, center
-theme: light, dark, solarized, etc.
+```CSS
+/* Placement*/
+.dropdown_placement_top {}
+.dropdown_placement_right {}
+.dropdown_placement_bottom {}
+.dropdown_placement_left {}
+
+/* Theme */
+.header_theme_light {}
+.header_theme_dark {}
+.header_theme_solarized {}
 ```
 
 The full name is created using the scheme:
@@ -532,12 +562,10 @@ Examples:
 
 ```CSS
 /* Key-Value block modifiers */
-
 .popup_theme_dark {}
 .button_size_m {}
 
 /* Key-Value element modifiers */
-
 .menu__item_type_radio {}
 .dropdown_placement_top {}
 ```
@@ -612,8 +640,8 @@ These are considered as wrong usage:
 <a id="less_mixins"></a>
 ### Mixins
 
-* it is forbidden to use mixins for prefixed properties,
-  it automatically does Autoprefixer
+It is forbidden to use mixins for prefixed properties, it automatically does
+Autoprefixer.
 
 
 <a id="less_nesting"></a>
