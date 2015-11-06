@@ -163,39 +163,13 @@ elements have, you can keep the block ruleset empty:
 ```CSS
 .block {}
 
-    .block__element1 {
-        background: #F00;
-    }
+.block__element1 {
+    background: #F00;
+}
 
-    .block__element2 {
-        background: #0F0;
-    }
-```
-
-**Indenting rulesets**
-
-* one (1) empty line between rulesets;
-* indent rulesets to signal their relation to each other in HTML;
-
-Example:
-
-```CSS
-.block {}
-
-    .block__element {}
-
-        .block__inner-element {}
-```
-
-* `::before` and `::after` pseudo-elements must be treated as inner elements and
-indented accordingly:
-
-```CSS
-.block {}
-
-    .block::before {}
-
-    .block::after {}
+.block__element2 {
+    background: #0F0;
+}
 ```
 
 
@@ -322,17 +296,17 @@ specific styles to the block elements, based on a theme. For example:
     background: #FFF;
 }
 
-    .box__title {
-        color: #000;
-    }
+.box__title {
+    color: #000;
+}
 
 .box_theme_dark {
     background: #000;
 }
 
-    .box_theme_dark > .box__title {
-        color: #FFF;
-    }
+.box_theme_dark > .box__title {
+    color: #FFF;
+}
 ```
 
 *How to use:*
@@ -486,11 +460,11 @@ for example:
     ...
 }
 
-    /* this is an element which belongs to the block */
-    .button__icon {
-        display: inline-block;
-        margin-right: 5px;
-    }
+/* this is an element which belongs to the block */
+.button__icon {
+    display: inline-block;
+    margin-right: 5px;
+}
 ```
 
 <a id="bem_modifier"></a>
