@@ -23,27 +23,12 @@
 
 ---
 
-- Status of this document: **Draft**
+- Status of this document: **Standard**
 - Author: Dmitriy Bogolyubov
 - E-mail: dmitriy.bogolyubov@lazada.com
 
 ---
 
-Please, feel free to share your own ideas, join discussions and make corrections
-(especially in those parts of the document which have not been filled out yet).
-If you have any objections please do not put them off, it will be much harder to
-add any changes after this document status will be changed from **Draft** to
-**Standard**.
-
-Scrutinize each rule at the point of view your daily work:
-- Will you be able to adhere it in your work?
-- Will it be comfortable for you?
-- Does it work for your team?
-
-If you found a grammar mistake or would like to reformulate
-something for better understanding let me know as well.
-
----
 
 <a id="base"></a>
 ## Base requirements
